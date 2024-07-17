@@ -9,6 +9,8 @@ declare module "next-auth" {
     user: {
       isNewUser?: boolean;
     } & DefaultSession["user"];
+    access_token: string;
+    idToken: string;
   }
 
   interface User {

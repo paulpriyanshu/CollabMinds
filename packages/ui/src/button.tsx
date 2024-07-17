@@ -1,20 +1,29 @@
-"use client";
-
 import { ReactNode } from "react";
+import React from "react";
 
 interface ButtonProps {
   children: ReactNode;
-  className?: string;
-  appName: string;
+  onClick: () => void;
+
 }
 
-export const Button = ({ children, className, appName }: ButtonProps) => {
+const Button = ({ onClick, children }: ButtonProps) => {
   return (
     <button
-      className={className}
-      onClick={() => alert(`Hello from your ${appName} app!`)}
+      onClick={onClick}
+      type="button"
+      className={`relative text-black bg-white hover:bg-slate-300  font-medium rounded-2xl text-sm lg:text-xl px-2 py-2 lg:px-4 lg:py-3 md:px-5 md:py-3 overflow-hidden`}
     >
-      {children}
+      {React.Children.map(children, (child, index) => (
+        <span
+          key={index}
+
+        >
+          {child}
+        </span>
+      ))}
     </button>
   );
 };
+
+export default Button;

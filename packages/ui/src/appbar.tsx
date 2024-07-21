@@ -3,12 +3,15 @@ import Button from "./button"
 import { useState } from "react"
 import Slider from "./slider"
 import Sliderbutton from "./sliderbutton"
+import { signIn, useSession } from "next-auth/react"
+import Userpic from "./userpic"
 
-interface AppbarProps {
+
+
+export interface AppbarProps {
     user?: {
         name?: string | null;
     },
-    // TODO: can u figure out what the type should be here?
     onSignin: any,
     onSignout: any
 }
@@ -18,7 +21,7 @@ export const Appbar = ({
     onSignin,
     onSignout
 }: AppbarProps) => {
-    
+    const session=useSession()
     return (
         <div className="bg-black text-white border-b-2 border-slate-800">
 
@@ -42,9 +45,7 @@ export const Appbar = ({
           <a href="/community" className="hover:text-gray-400 hidden md:block ">Community</a>
         </div>
     
-        <div className="flex flex-col justify-center pt-2  mr-5 lg:mr-10 mt-3">
-            <Button  onClick={user ? onSignout : onSignin}>{user ? "Logout" : "Login"}</Button>
-        </div>
+        <Userpic onSignin={onSignin} onSignout={onSignout}/>
     </div>
    
     </div>

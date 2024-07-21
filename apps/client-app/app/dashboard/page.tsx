@@ -29,25 +29,36 @@ function page() {
   // },[dispatch])
   const dispatch=useDispatch()
   const [projects,setProjects]=useState<Project[]>([])
-  const session=useSession()
+  const {data:session,status}=useSession()
+ 
   const projdata=useSelector((state:RootState)=>state.projects.projects)
   const handlefetch=async()=>{
-    const response=await fetchProjects() ?? []
-
-
-    // console.log("array of data",response)
-    await dispatch(setProject(response))
-
-    setProjects(response)
-    //  response?.map(projects=>projdata.push(projects))
-    console.log("this is projdata",projdata)
+    console.log("this is session",session)
+    if (session) {
+      const email=session?.user.email
+      console.log("this is user email",email)
+      const response=await fetchProjects(email||"") ?? []
+  
+      console.log(response)
+      // console.log("array of data",response)
+      const projectsWithSerializedDates = response.map(project => ({
+        ...project,
+        createdAt: new Date(project.createdAt).toISOString(),
+      }));
+      console.log(projectsWithSerializedDates);
+      await dispatch(setProject(projectsWithSerializedDates));
+      setProjects(projectsWithSerializedDates);
+      console.log("this is projdata",projdata)
+    }
   }
  
   useEffect(()=>{
-     handlefetch()
-  },[])
-  console.log("proj data 2",projdata)
-  projdata.map((projects)=>console.log(projects.id))
+    if (status === 'authenticated') {
+      handlefetch();
+    }
+
+  },[status])
+  console.log("outside of useEffect")
   return (
     <>
       <Dashboard/>
@@ -61,16 +72,7 @@ function page() {
 
       </div>
       
-    {/* <div>
-    {projects.map((project:any)=>(
-        <div key={project.id}>
-          <div className='text-white'>
-            <ProjectBar title={title}/>
-            hello
-          </div>
-        </div>
-      ))}
-    </div> */}
+  
      {projdata.map((project:any)=>(<div key={project.id}>
       <div>
       <ProjectBar title={project.title}/>

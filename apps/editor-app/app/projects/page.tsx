@@ -5,6 +5,7 @@ function page() {
   
   return (
     <div>
+       <EditorDashboard/>
         <h1 className='flex justify-center text-4xl font-extrabold mt-20'>
             Your Projects
         </h1>

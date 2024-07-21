@@ -56,7 +56,7 @@ const authOptions={
   },
   callbacks:{
     signIn:async ({user}:any)=>{
-        console.log("this is user",user)
+        // console.log("this is user",user)
         if (user.email) {
             try {
             const existingUser = await db.google_auth_user.findUnique({ where: { email: user.email } });
@@ -89,7 +89,7 @@ const authOptions={
                   }
                   else{
                     user.isNewUser = false;
-                    console.log('User already exists:', existingUser);
+                    // console.log('User already exists:', existingUser);
                     return true
                   }
               
@@ -104,12 +104,12 @@ const authOptions={
         jwt:async({token,user,account}:any) =>{
           if (user) {
             token.isNewUser = user.isNewUser;
-            console.log("will prrint access token")
-            console.log("this is token's newuser",token.isNewUser)
-            console.log("this is account access token",account?.access_token)
+            // console.log("will prrint access token")
+            // console.log("this is token's newuser",token.isNewUser)
+            // console.log("this is account access token",account?.access_token)
             if(account?.access_token){
               token.access_token = account.access_token
-              console.log("this is accesstoken",token.access_token)
+              // console.log("this is accesstoken",token.access_token)
             }
             if (account?.idToken) {
               token.idToken = account.idToken; // Ensure idToken is handled
@@ -119,8 +119,8 @@ const authOptions={
         },
        
         session: async({ session, token }:any)=> {
-          console.log("this is session",session)
-            console.log("this is token",token)
+          // console.log("this is session",session)
+            // console.log("this is token",token)
             session.user.isNewUser = token.isNewUser === true ? true : undefined;
             // console.log('New user:', session.user)
             if (typeof token.access_token === 'string') {
@@ -135,8 +135,8 @@ const authOptions={
           // if(token.isNewUser){
           //   return `${baseUrl}/welcome`
           // }
-          console.log("this is url: " + url)
-          console.log("this is baseUrl: " + baseUrl)
+          // console.log("this is url: " + url)
+          // console.log("this is baseUrl: " + baseUrl)
           // const data= await db.user.findUnique({
           //   where:{
           //     email:session.user.email
@@ -144,13 +144,24 @@ const authOptions={
           // })
           if(url){
             //if(data?.Role==="None") return `${baseUrl}/role`;
-            return `${baseUrl}/home`;
+            return `${baseUrl}/dashboard`;
           }
 
           return baseUrl
         }
       
         
+  },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token-${process.env.SERVER_NAME}`, // Unique cookie name for each server
+      options: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+      },
+    },
   },
   secret: process.env.NEXTAUTH_SECRET
 }

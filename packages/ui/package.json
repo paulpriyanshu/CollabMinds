@@ -22,7 +22,9 @@
     "./rolePage": "./src/rolePage.tsx",
     "./roleCard": "./src/roleCard.tsx",
     "./Editordashboard": "./src/editordashboard.tsx",
-    "./sharecodecomponent": "./src/sharecodecomponent.tsx"
+    "./sharecodecomponent": "./src/sharecodecomponent.tsx",
+    "./editorprojectbar":"./src/editorprojectbar.tsx",
+    "./userpic":"./src/userpic.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

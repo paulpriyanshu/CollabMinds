@@ -5,6 +5,10 @@ import Dashboard from "@repo/ui/dashboard";
 
 export default function Home() {
   return (
-    <Home/>
+    <>
+      <div>
+        hello
+        </div>    
+    </>
   );
 }

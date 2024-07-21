@@ -7,7 +7,7 @@ import { Project } from '../../api/actions/projectActions';
 //   projects: Project[];
 // }
 interface ProjectState extends Project {
-  id: string;
+  id: number;
 }
 
 const initialState= {

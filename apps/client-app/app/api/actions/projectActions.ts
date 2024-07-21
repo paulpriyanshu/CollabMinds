@@ -61,15 +61,19 @@ export const CreateTitle = async(title:string,userEmail:string) =>{
 //   return response.json();
 // });
 
-export const fetchProjects=async()=>{
-    const session=await getServerSession()
-  if (session?.user?.email) {
+export const fetchProjects=async(email:string)=>{
+    // const session=await getServerSession()
+    // console.log("this is user email",session?.user.email)
+    console.log("entered the function")
+  if (email) {
+   
       const response=await db.projects.findMany({
           where:{
-              userEmail: session?.user?.email
+              userEmail: email
           }
           
       })
+    console.log(response)
     return response
   }
 

@@ -7,7 +7,12 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "../app/api/uploadthing/core";
 import ProjectsStoreProvider from "./ProjectsStoreProvider";
-
+import {Inter} from 'next/font/google'
+const inter=Inter({
+  weight:'700',
+  subsets:['latin'],
+  display:'swap'
+})
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -28,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.className}>
       <body className={`${geistSans.variable} ${geistMono.variable} bg-black h-screen`}>
 
         <Providers>

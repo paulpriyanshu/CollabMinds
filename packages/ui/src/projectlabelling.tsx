@@ -28,7 +28,9 @@ function ProjectLabel() {
 
         const response=await CreateTitle(title,userEmail)
 
-        dispatch(createproject({title,userEmail}))
+        dispatch(createproject({
+          title, userEmail,id:response.id
+        }))
         console.log("dispatched to store")
 
         console.log("response",response)
@@ -47,6 +49,7 @@ function ProjectLabel() {
 
   return (
     <div>
+      
         <div>
             <Button onClick={handleNewProject}>
                 New Project

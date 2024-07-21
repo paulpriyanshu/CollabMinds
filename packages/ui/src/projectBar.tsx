@@ -53,14 +53,14 @@ function ProjectBar({ title }: ProjectProps) {
                 <div className={`flex justify-between text-white ${isLoading ? 'bg-slate-300' : 'bg-black'} lg:w-1/2 w-full border-2 border-slate-800 rounded-2xl p-5 m-5 lg:text-3xl sm:text-sm font-mono font-bold`}>
                     <div>{title}</div>
                     <div className='flex justify-end'>
-                        <div className='lg:text-xl sm:text-sm lg:py-2 lg:p-3 p-1 rounded-xl hover:bg-slate-600'>
+                        <div className='lg:text-xl sm:text-sm  lg:p-3 p-1 rounded-xl hover:bg-slate-800'>
                             <button onClick={handleSecondModal} >AddMedia</button>
                         </div>
                         <div>
-                            <button className='text-xl px-3 hover:bg-slate-800' onClick={shareProject}>Share</button>
+                            <button className='text-xl px-3 hover:bg-slate-800 p-3 rounded-2xl' onClick={shareProject}>Share</button>
                         </div>
                         <div className='lg:px-4 m-1 px-1'>
-                            <button className='hover:bg-slate-600 px-1 rounded-2xl text-md' onClick={handleDeleteProject} disabled={isLoading}>❌</button>
+                            <button className='hover:bg-slate-800 px-1 p-2 rounded-2xl text-md' onClick={handleDeleteProject} disabled={isLoading}>❌</button>
                         </div>
                     </div>
                 </div>

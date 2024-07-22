@@ -74,7 +74,7 @@ function EditorProjectBar({ title, useremail }: ProjectProps) {
     <div>
       <div className='flex justify-center'>
         <div className={`flex justify-between text-white ${isLoading ? 'bg-slate-300' : 'bg-black'} lg:w-full w-full border-2 border-slate-800 rounded-2xl p-5 m-5 lg:text-xl sm:text-sm font-mono font-bold`}>
-          <div>{title}-{clientname}</div>
+          <div className='mt-3'>{title}-{clientname}</div>
           <div className='flex justify-end'>
             <div>
               <button onClick={viewMedia} className='border-2 border-slate-800 p-2 px-5 rounded-2xl text-md'>View</button>

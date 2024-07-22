@@ -57,13 +57,13 @@ function Page() {
     <div>
       <EditorDashboard />
       <div className='flex justify-center w-full'>
-        <div className='flex flex-col w-1/2'>
+        <div className='flex flex-col w-2/3'>
         <h1 className='flex justify-center text-4xl text-white font-bold m-5'>
         Projects
       </h1>
       <div>
         {projects.map((data) => (
-          <div key={data.id} className='flex flex-col w-full'>
+          <div key={data.id} className='flex flex-col'>
             {/* <div className='w-1/2 border-2 border-slate-800'>
             {data.title}
             </div> */}

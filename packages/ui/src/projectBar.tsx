@@ -50,8 +50,8 @@ function ProjectBar({ title }: ProjectProps) {
     return (
         <div>
             <div className='flex justify-center'>
-                <div className={`flex justify-between text-white ${isLoading ? 'bg-slate-300' : 'bg-black'} lg:w-1/2 w-full border-2 border-slate-800 rounded-2xl p-5 m-5 lg:text-3xl sm:text-sm font-mono font-bold`}>
-                    <div>{title}</div>
+                <div className={`flex justify-between text-white ${isLoading ? 'bg-slate-300' : 'bg-black'} lg:w-2/3 w-full border-2 border-slate-800 rounded-2xl p-5 m-5 lg:text-xl sm:text-sm font-mono font-bold`}>
+                    <div className='mt-2'>{title}</div>
                     <div className='flex justify-end'>
                         <div className='lg:text-xl sm:text-sm  lg:p-3 p-1 rounded-xl hover:bg-slate-800'>
                             <button onClick={handleSecondModal} >AddMedia</button>

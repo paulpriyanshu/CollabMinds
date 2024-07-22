@@ -74,7 +74,7 @@ function page() {
       
   
      {projdata.map((project:any)=>(<div key={project.id}>
-      <div>
+      <div className='' style={{width:'100%'}}>
       <ProjectBar title={project.title}/>
 
       </div>

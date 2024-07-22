@@ -1,94 +1,68 @@
-"use client"
-import Dashboard from '@repo/ui/dashboard'
-import React, { useEffect } from 'react'
-import Button from '@repo/ui/button'
-import ProjectComponent from '@repo/ui/projectcomponent'
-import ProjectLabel from '@repo/ui/projectlabelling'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../lib/ProjectsStore'
-import { fetchProjects } from '../api/actions/projectActions'
-import {useState} from 'react'
-import db from "@repo/db/client"
-import { useSession } from 'next-auth/react'
-import ProjectBar from "@repo/ui/projectBar"
-import { setProject } from '../lib/features/ProjectSlice'
-import { title } from 'process'
+"use client";
 
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../lib/ProjectsStore';
+import { fetchProjects } from '../api/actions/projectActions';
+import { useSession } from 'next-auth/react';
+import { setProject } from '../lib/features/ProjectSlice';
+import dynamic from 'next/dynamic';
 
-interface Project {
-  id:number;
-  userEmail:String;
-  title:String;
-}
-function page() {
-  // const dispatch=useDispatch()
-  // const projects=useDispatch((state:RootState)=>state.projects.projects)
- 
-  // useEffect(()=>{
-  //   dispatch(fetchProjects())
-  // },[dispatch])
-  const dispatch=useDispatch()
-  const [projects,setProjects]=useState<Project[]>([])
-  const {data:session,status}=useSession()
- 
-  const projdata=useSelector((state:RootState)=>state.projects.projects)
-  const handlefetch=async()=>{
-    console.log("this is session",session)
-    if (session) {
-      const email=session?.user.email
-      console.log("this is user email",email)
-      const response=await fetchProjects(email||"") ?? []
-  
-      console.log(response)
-      // console.log("array of data",response)
-      const projectsWithSerializedDates = response.map(project => ({
-        ...project,
-        id:project.id.toString(),
-        createdAt: new Date(project.createdAt).toISOString(),
-      }));
-      console.log(projectsWithSerializedDates);
-      
-      await dispatch(setProject(projectsWithSerializedDates));
-      setProjects(projectsWithSerializedDates);
-      console.log("this is projdata",projdata)
+// Dynamically import components with React.Suspense fallback
+const Dashboard = dynamic(() => import('@repo/ui/dashboard'), { ssr: false });
+const ProjectLabel = dynamic(() => import('@repo/ui/projectlabelling'), { ssr: false });
+const ProjectBar = dynamic(() => import('@repo/ui/projectBar'), { ssr: false });
+
+function Page() {
+  const dispatch = useDispatch();
+  const { data: session, status } = useSession();
+  const projdata = useSelector((state: RootState) => state.projects.projects);
+
+  const handlefetch = useCallback(async () => {
+    if (session?.user?.email) {
+      try {
+        const email = session.user.email;
+        const response = await fetchProjects(email);
+        const projectsWithSerializedDates = response?.map(project => ({
+          ...project,
+          id: project.id.toString(),
+          createdAt: new Date(project.createdAt).toISOString(),
+        }));
+        await dispatch(setProject(projectsWithSerializedDates));
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      }
     }
-  }
- 
-  useEffect(()=>{
+  }, [session, dispatch]);
+
+  useEffect(() => {
     if (status === 'authenticated') {
       handlefetch();
     }
+  }, [status, handlefetch]);
 
-  },[status])
-  console.log("outside of useEffect")
   return (
-    <>
-      <Dashboard/>
-      
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <Dashboard />
       <div className='flex justify-end m-5 mr-10'>
-        
-      <ProjectLabel/>
+        <ProjectLabel />
       </div>
       <div className='flex justify-center'>
-      <h1 className='text-white text-4xl font-extrabold'>Projects</h1>
-
+        <h1 className='text-white text-4xl font-extrabold'>Projects</h1>
       </div>
-      
-  
-     {projdata.map((project:any)=>(<div key={project.id}>
-      <div className='' style={{width:'100%'}}>
-      <ProjectBar title={project.title}/>
-
+      <div className='flex flex-col items-center'>
+        {projdata.length > 0 ? (
+          projdata.map((project) => (
+            <div key={project.id} className='w-full'>
+              <ProjectBar title={project.title} />
+            </div>
+          ))
+        ) : (
+          <p className='text-white'>No projects found</p>
+        )}
       </div>
-      
-
-     </div>
-     )
-    )}
-     
-      
-    </>
-  )
+    </React.Suspense>
+  );
 }
 
-export default page
+export default React.memo(Page);

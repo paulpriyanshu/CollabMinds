@@ -1,29 +1,9 @@
-import NextAuth, { User } from "next-auth";
-import CredentialsProvider from 'next-auth/providers/credentials';
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import db from "@repo/db/client";
-import { PrismaClient } from "@prisma/client";
-
-const client = new PrismaClient();
 
 const authOptions = {
   providers: [
-    CredentialsProvider({
-      name: 'Credentials',
-      credentials: {
-        username: { label: 'name', type: 'text', placeholder: 'name' },
-        email: { label: 'email', type: 'text', placeholder: 'email' },
-        password: { label: 'password', type: 'password', placeholder: 'password' },
-      },
-      async authorize(credentials: any) {
-        const { email } = credentials;
-        const user = await db.user.findUnique({
-          where: { email: email }
-        });
-        if (!user) return { id: "user", email: email, isNewUser: true };
-        return { id: "1", email: email, isNewUser: false };
-      },
-    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_ID || "",
       clientSecret: process.env.GOOGLE_SECRET || "",
@@ -83,22 +63,17 @@ const authOptions = {
     jwt: async ({ token, user, account }: any) => {
       if (user) {
         token.isNewUser = user.isNewUser;
-        // console.log("will print access token");
-        // console.log("this is token's newuser", token.isNewUser);
-        // console.log("this is account access token", account?.access_token);
         if (account?.access_token) {
           token.access_token = account.access_token;
-          // console.log("this is access token", token.access_token);
+
         }
         if (account?.idToken) {
-          token.idToken = account.idToken; // Ensure idToken is handled
+          token.idToken = account.idToken; 
         }
       }
       return token;
     },
     session: async ({ session, token }: any) => {
-      // console.log("this is session", session);
-      // console.log("this is token", token);
       session.user.isNewUser = token.isNewUser === true ? true : undefined;
       if (typeof token.access_token === 'string') {
         session.access_token = token.access_token;
@@ -106,7 +81,7 @@ const authOptions = {
       }
       return session;
     },
-    redirect: async ({ url, baseUrl, token, session }: any) => {
+    redirect: async ({ url, baseUrl}: any) => {
       console.log("this is url: " + url);
       console.log("this is baseUrl: " + baseUrl);
       if (url) {

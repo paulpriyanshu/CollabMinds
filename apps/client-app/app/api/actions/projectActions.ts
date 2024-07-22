@@ -1,12 +1,5 @@
 "use server"
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import client from '@repo/db/client'
-import { getServerSession } from 'next-auth';
 import db from "@repo/db/client"
-import { title } from 'process';
-
-
-
 export interface Project {
     title: string;
     userEmail: string;
@@ -55,15 +48,7 @@ export const CreateTitle = async(title:string,userEmail:string) =>{
     console.log("saved")
     return save
 }
-
-// export const fetchProjects = createAsyncThunk('projects/fetchProjects', async () => {
-//   const response = await fetch('/api/projects');
-//   return response.json();
-// });
-
 export const fetchProjects=async(email:string)=>{
-    // const session=await getServerSession()
-    // console.log("this is user email",session?.user.email)
     console.log("entered the function")
   if (email) {
    

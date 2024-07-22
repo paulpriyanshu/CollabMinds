@@ -9,12 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.6",
     "@repo/actions": "*",
     "@repo/db": "*",
     "@repo/types": "*",
     "@repo/ui": "*",
     "autoprefixer": "^10.4.19",
+    "axios": "^1.7.2",
     "next": "15.0.0-rc.0",
+    "next-auth": "^4.24.7",
     "react": "19.0.0-rc-f994737d14-20240522",
     "react-dom": "19.0.0-rc-f994737d14-20240522",
     "react-redux": "^9.1.2",

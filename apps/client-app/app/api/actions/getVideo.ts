@@ -5,7 +5,7 @@ import { getToken } from 'next-auth/jwt';
 
 import axios from 'axios';
 import { getServerSession } from 'next-auth';
-import { NextApiRequest } from 'next';
+
 
 export default async function channel_list(access_token:any,channel_id:any) {
   //const { data: session, status } = useSession();

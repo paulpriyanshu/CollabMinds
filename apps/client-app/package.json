@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo ",
-    "build": "next build",
+    "dev": "next dev --turbo",
+    "build": "npm run generate-prisma-client && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-prisma-client": "cd ../../packages/db && npx prisma generate"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.6",

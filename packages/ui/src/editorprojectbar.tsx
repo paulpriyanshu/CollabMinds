@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import Modal from './modal';
 import { fetchclientname, fetchprojectdata } from "../../../apps/editor-app/app/api/actions/editorActions";
-import { fetchFileData } from '../../../apps/editor-app/app/api/download/download';
-import {download} from '../../actions/src/download'
+import { download } from '../../actions/src/download';
+
 interface ProjectProps {
   title: string;
   useremail: string;
@@ -34,7 +34,7 @@ function EditorProjectBar({ title, useremail }: ProjectProps) {
   };
 
   const viewMedia = async () => {
-    setviewdata((prev) => !prev);
+    setviewdata(prev => !prev);
     if (title) {
       const proj = await fetchprojectdata(title);
       const info = localStorage.getItem('data');
@@ -49,16 +49,19 @@ function EditorProjectBar({ title, useremail }: ProjectProps) {
   };
 
   const clientName = async () => {
-    const name = await fetchclientname(useremail || "");
-    if (name) {
-      setclientname(name?.name);
+    const nameResponse = await fetchclientname(useremail || "");
+    if (nameResponse && nameResponse.name) {
+      setclientname(nameResponse.name); // Only set if name is defined
+    } else {
+      setclientname(""); // Set to an empty string or a default value if name is null
     }
   };
+
   const handleClick = async () => {
     setLoading(true);
     setProgress({});
-    const array = data?.videoName;
-    await download(array,setProgress)
+    const array = data?.videoName || [];
+    await download(array, setProgress);
     setLoading(false);
   };
 
@@ -68,7 +71,7 @@ function EditorProjectBar({ title, useremail }: ProjectProps) {
 
   useEffect(() => {
     clientName();
-  }, []);
+  }, [useremail]); // Update the dependency to include `useremail`
 
   return (
     <div>

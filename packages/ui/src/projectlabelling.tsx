@@ -9,7 +9,7 @@ import { useSession } from 'next-auth/react';
 import {CreateTitle} from "../../../apps/client-app/app/api/actions/projectActions"
 import {useAppSelector,useAppDispatch} from "../../../apps/client-app/app/lib/Projectshooks"
 import { RootState,AppDispatch } from '../../../apps/client-app/app/lib/ProjectsStore';
-import { createproject } from '../../../apps/client-app/app/lib/features/ProjectSlice';
+import { createProject } from '../../../apps/client-app/app/lib/features/ProjectSlice';
 import { Project } from '../../../apps/client-app/app/api/actions/projectActions';
 function ProjectLabel() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,8 +28,8 @@ function ProjectLabel() {
 
         const response=await CreateTitle(title,userEmail)
 
-        dispatch(createproject({
-          title, userEmail,id:response.id
+        dispatch(createProject({
+          title, userEmail
         }))
         console.log("dispatched to store")
 

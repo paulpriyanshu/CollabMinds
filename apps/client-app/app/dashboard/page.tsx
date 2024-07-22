@@ -43,9 +43,11 @@ function page() {
       // console.log("array of data",response)
       const projectsWithSerializedDates = response.map(project => ({
         ...project,
+        id:project.id.toString(),
         createdAt: new Date(project.createdAt).toISOString(),
       }));
       console.log(projectsWithSerializedDates);
+      
       await dispatch(setProject(projectsWithSerializedDates));
       setProjects(projectsWithSerializedDates);
       console.log("this is projdata",projdata)

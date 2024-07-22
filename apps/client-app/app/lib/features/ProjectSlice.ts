@@ -1,16 +1,15 @@
-import { createSlice,nanoid,PayloadAction } from '@reduxjs/toolkit';
-// import { createProject, fetchProjects } from '../../api/actions/projectActions';
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { Project } from '../../api/actions/projectActions';
 
-
-// interface ProjectState {
-//   projects: Project[];
-// }
 interface ProjectState extends Project {
-  id: number;
+  id: string; // Change to `string` if `nanoid()` returns a string
 }
 
-const initialState= {
+interface ProjectsState {
+  projects: ProjectState[];
+}
+
+const initialState: ProjectsState = {
   projects: [],
 };
 
@@ -18,26 +17,22 @@ const projectSlice = createSlice({
   name: 'projects',
   initialState,
   reducers: {
-    createproject: (state,action:PayloadAction<ProjectState>)=> {
-      const projectData={
-        id:nanoid(),
-        title:action.payload.title,
-        userEmail:action.payload.userEmail
-      }
+    createProject: (state, action: PayloadAction<Omit<ProjectState, 'id'>>) => {
+      const projectData: ProjectState = {
+        id: nanoid(),
+        ...action.payload,
+      };
       state.projects.push(projectData);
-
     },
-    removeProject:(state,action:PayloadAction<String>)=>{
-   
-      state.projects=state.projects.filter((project)=>project.title !== action.payload)
+    removeProject: (state, action: PayloadAction<string>) => {
+      state.projects = state.projects.filter(project => project.title !== action.payload);
     },
-    setProject:(state,action)=>{
-      state.projects=action.payload
+    setProject: (state, action: PayloadAction<ProjectState[]>) => {
+      state.projects = action.payload;
     }
-
   },
 });
 
-export const { createproject,setProject,removeProject} = projectSlice.actions
-export type { Project}
-export default projectSlice.reducer
+export const { createProject, setProject, removeProject } = projectSlice.actions;
+export type { Project, ProjectState };
+export default projectSlice.reducer;

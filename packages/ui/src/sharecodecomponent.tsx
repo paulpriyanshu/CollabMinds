@@ -15,7 +15,7 @@ import { SendProject, thumbnailupdate, vidupdate } from '../../../apps/client-ap
 import { CreateTitle } from '../../../apps/client-app/app/api/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../../apps/client-app/app/lib/Projectshooks';
 import { RootState, AppDispatch } from '../../../apps/client-app/app/lib/ProjectsStore';
-import { createproject } from '../../../apps/client-app/app/lib/features/ProjectSlice';
+// import { createproject } from '../../../apps/client-app/app/lib/features/ProjectSlice';
 
 export interface ShowCodeProps {
   isOpen: boolean;

@@ -7,6 +7,7 @@ import { AppDispatch } from '../lib/store';
 import { openVideo } from '../api/actions/playVideo';
 import dynamic from 'next/dynamic';
 import channel_list from '../api/actions/getVideo';
+import { getTitleBeforeHash } from '../api/actions/selectTitle';
 
 // Dynamically import components
 const Dashboard = dynamic(() => import('@repo/ui/dashboard'), { ssr: false });
@@ -24,8 +25,6 @@ function Videos() {
   const { data: session } = useSession();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
-
-  // Fetch channel ID once when component mounts
   useEffect(() => {
     const getChannelId = async () => {
       if (session?.access_token) {
@@ -57,7 +56,7 @@ function Videos() {
   const handleGetData = useCallback(async () => {
     if (session?.access_token && channelId) {
       try {
-        const result = await channel_list(session.access_token, channelId);
+        const result = await channel_list(channelId);
         setVideos(result.items);
         setIsLoaded(true);
       } catch (error) {
@@ -67,11 +66,6 @@ function Videos() {
       console.error('Session or channel ID is not available');
     }
   }, [session?.access_token, channelId]);
-
-  const getTitleBeforeHash = useCallback((title: string) => {
-    const index = title.indexOf('#');
-    return index !== -1 ? title.substring(0, index) : title;
-  }, []);
 
   const handleClickVideo = useCallback(async (videoId: string) => {
     try {

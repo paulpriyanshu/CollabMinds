@@ -7,8 +7,6 @@ export interface Project {
     thumbnnailUrl?: string;
 
 }
-
-
 export const AccessCode=async(title:string)=>{
     let accessCode=Math.floor(Math.random()*(999999-99999))+9999
     const code=accessCode.toString()

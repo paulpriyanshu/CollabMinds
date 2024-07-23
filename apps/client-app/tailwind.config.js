@@ -1,6 +1,5 @@
-import { withUt } from "uploadthing/tw";
-
-export default withUt({
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -32,20 +31,12 @@ export default withUt({
           '180%': { backgroundPosition: '20% 80%' },
           '190%': { backgroundPosition: '10% 90%' },
         },
-        // ballMove: {
-        //   '0%': { transform: 'translate(0, 0)' },
-        //   '25%': { transform: 'translate(100vw, 100vh)' },
-        //   '50%': { transform: 'translate(50vw, -50vh)' },
-        //   '75%': { transform: 'translate(-50vw, 50vh)' },
-        //   '100%': { transform: 'translate(0, 0)' },
-        // },
       },
       animation: {
         gradientMove: 'gradientMove 5s ease infinite',
-        // ballMove: 'ballMove 10s ease-in-out infinite',
       },
     },
     
   },
   plugins: [],
-});
+}
